@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 import matplotlib, numpy, math, random
 import numpy as np
 import matplotlib.pyplot as p
@@ -42,10 +36,6 @@ duration = 0
 
 startTime = 0
 endTime = 0
-
-
-# In[2]:
-
 
 def alphN (v):
     newAlN = (0.01 * (10 - v)) / (np.exp((10 - v) / 10) - 1)
@@ -143,4 +133,3 @@ matplotlib.rcParams.update({'font.size': 18})
 p.rcParams['figure.figsize'] = [12, 7]
 p.grid(True)
 p.plot(time, volt)
-
