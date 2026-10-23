@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[1]:
+
+
 import matplotlib, numpy, math, random
 import numpy as np
 import matplotlib.pyplot as p
@@ -8,6 +14,13 @@ eK = -12
 gK = 36
 eL = 10.6
 gL = 0.3
+
+#For potassium channel (V174F Mutation)
+gammaTau = 1
+gammaAlpha = 0.5 # (<1)
+gammaBeta = 1
+gammaK = 0.08
+deltaV = 36
 
 alNVal = []
 alMVal = []
@@ -36,6 +49,10 @@ duration = 0
 
 startTime = 0
 endTime = 0
+
+
+# In[2]:
+
 
 def alphN (v):
     newAlN = (0.01 * (10 - v)) / (np.exp((10 - v) / 10) - 1)
@@ -72,7 +89,7 @@ def update (old, deriv):
 
 def dNMH (v,nmh):
     if nmh == nVal[-1]:
-        return(alphN(v)*(1-nmh)-betaN(v)*nmh)
+        return(gammaTau * (gammaAlpha * alphN(v - deltaV)*(1-nmh)- gammaBeta * betaN(v - deltaV) *nmh))
     elif nmh == mVal[-1]:
         return(alphM(v)*(1-nmh)-betaM(v)*nmh)
     elif nmh == hVal[-1]:
@@ -80,7 +97,7 @@ def dNMH (v,nmh):
 
 def makeNMH (v):
     if v == 0:
-        nVal.append(alphN(v)/(alphN(v)+betaN(v))), alNVal.pop(0)
+        nVal.append((gammaAlpha * alphN(v - deltaV) / (gammaAlpha * alphN(v - deltaV) + gammaBeta * betaN(v - deltaV)))), alNVal.pop(0)
         mVal.append(alphM(v)/(alphM(v)+betaM(v))), alMVal.pop(0)
         hVal.append(alphH(v)/(alphH(v)+betaH(v))), alHVal.pop(0)
     else:
@@ -93,8 +110,9 @@ def naCur (v,m,h):
     naCurVal.append(newNaCur)
     return(newNaCur)
 
+#
 def kCur (v,n):
-    newKCur = gK*(n**4)*(v-eK)
+    newKCur = gammaK*gK*(n**4)*(v-eK)
     kCurVal.append(newKCur)
     return(newKCur)
 
@@ -133,3 +151,4 @@ matplotlib.rcParams.update({'font.size': 18})
 p.rcParams['figure.figsize'] = [12, 7]
 p.grid(True)
 p.plot(time, volt)
+
