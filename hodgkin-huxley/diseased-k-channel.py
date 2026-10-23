@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
 
 
 import matplotlib, numpy, math, random
@@ -49,10 +45,6 @@ duration = 0
 
 startTime = 0
 endTime = 0
-
-
-# In[2]:
-
 
 def alphN (v):
     newAlN = (0.01 * (10 - v)) / (np.exp((10 - v) / 10) - 1)
@@ -110,7 +102,7 @@ def naCur (v,m,h):
     naCurVal.append(newNaCur)
     return(newNaCur)
 
-#
+
 def kCur (v,n):
     newKCur = gammaK*gK*(n**4)*(v-eK)
     kCurVal.append(newKCur)
